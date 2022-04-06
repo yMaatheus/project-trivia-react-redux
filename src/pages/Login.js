@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class Login extends React.Component {
       name: '',
       email: '',
       playerDisabled: true,
+      btnSettingsDisabled: false,
     };
   }
 
@@ -28,12 +30,18 @@ class Login extends React.Component {
     this.setState({ playerDisabled: !this.isNameValid() || !this.isEmailValid() });
   }
 
+  // Setor de direcionar botão
+  btnSettingsRedirect = () => {
+    this.setState({ btnSettingsDisabled: true });
+  }
+
+
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, this.validateNameAndEmail);
   }
 
   render() {
-    const { playerDisabled } = this.state;
+    const { playerDisabled, btnSettingsDisabled } = this.state;
 
     return (
       <div>
@@ -60,6 +68,15 @@ class Login extends React.Component {
           >
             Jogar
           </button>
+          <button
+          data-testid="btn-settings"
+          type='button'
+          label="Configurar"
+          disabled={ btnSettingsRedirect }
+          >
+            Configurações
+          </button>
+          { btnSettingsDisabled && <Redirect to="/settings" /> }
         </fieldset>
       </div>
     );
