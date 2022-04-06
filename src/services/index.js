@@ -10,12 +10,4 @@ export const tokenFetch = async () => {
   }
 };
 
-export const getGravatarAvatar = async (emailHash) => {
-  try {
-    const response = await fetch(`https://www.gravatar.com/avatar/${emailHash}`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-  }
-};
+export const trivia = '1';
