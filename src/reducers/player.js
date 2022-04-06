@@ -1,19 +1,19 @@
-// import { SET_TOKEN } from '../actions';
+import { INCREMENT_SCORE } from '../actions';
 
 const FIRST_STATE = {
   name: '',
   assertions: '',
-  score: '',
+  score: 0,
   gravatarEmail: '',
-  token: '',
 };
 
 const player = (state = FIRST_STATE, action) => {
   switch (action.type) {
-  case 'ACTION':
+  case INCREMENT_SCORE:
+    console.log('Hello world');
     return {
       ...state,
-      token: action.payload,
+      score: (state.score + action.payload),
     };
   default:
     return state;

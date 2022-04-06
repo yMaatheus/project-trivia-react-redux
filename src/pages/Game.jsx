@@ -1,4 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { incrementScore } from '../actions';
 
 class Game extends React.Component {
   constructor() {
@@ -39,11 +42,29 @@ class Game extends React.Component {
 
   decrementAndTimeoutCheck = () => {
     const { seconds, isAnswered } = this.state;
-    console.log(seconds);
     this.decrement();
     if (seconds <= 0 && !isAnswered) {
       this.questionTimeout();
     }
+  }
+
+  handleQuestion = () => {
+    const { computeNewScore } = this.props;
+    this.setState({ isAnswered: true });
+    this.stopTimer();
+    const correct = true;
+    if (!correct) {
+      return;
+    }
+    const points = this.calculatePointsAnswered();
+    computeNewScore(points);
+  }
+
+  calculatePointsAnswered = () => {
+    const { seconds } = this.state;
+    const difficulty = 3;
+    const ten = 10;
+    return ten + (seconds * difficulty);
   }
 
   render() {
@@ -57,4 +78,12 @@ class Game extends React.Component {
   }
 }
 
-export default Game;
+Game.propTypes = {
+  computeNewScore: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  computeNewScore: (points) => dispatch(incrementScore(points)),
+});
+
+export default connect(null, mapDispatchToProps)(Game);
