@@ -36,6 +36,11 @@ class Login extends React.Component {
     this.setState({ playerDisabled: !this.isNameValid() || !this.isEmailValid() });
   }
 
+  clickSettingsButton = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  }
+
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, this.validateNameAndEmail);
   }
@@ -73,6 +78,14 @@ class Login extends React.Component {
             onClick={ this.clickPlayButton }
           >
             Jogar
+          </button>
+          <button
+            data-testid="btn-settings"
+            type="button"
+            label="Configurar"
+            onClick={ this.clickSettingsButton }
+          >
+            Configurações
           </button>
         </fieldset>
       </div>
