@@ -35,7 +35,6 @@ class Login extends React.Component {
     this.setState({ btnSettingsDisabled: true });
   }
 
-
   handleChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, this.validateNameAndEmail);
   }
@@ -69,10 +68,10 @@ class Login extends React.Component {
             Jogar
           </button>
           <button
-          data-testid="btn-settings"
-          type='button'
-          label="Configurar"
-          disabled={ btnSettingsRedirect }
+            data-testid="btn-settings"
+            type="button"
+            label="Configurar"
+            disabled={ btnSettingsRedirect }
           >
             Configurações
           </button>
