@@ -1,5 +1,4 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -32,7 +31,8 @@ class Login extends React.Component {
 
   // Setor de direcionar botão
   btnSettingsRedirect = () => {
-    this.setState({ btnSettingsDisabled: true });
+    const { history } = this.props;
+    history.push('/settings');
   }
 
   handleChange = ({ target: { name, value } }) => {
@@ -40,7 +40,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { playerDisabled, btnSettingsDisabled } = this.state;
+    const { playerDisabled } = this.state;
 
     return (
       <div>
@@ -71,11 +71,10 @@ class Login extends React.Component {
             data-testid="btn-settings"
             type="button"
             label="Configurar"
-            disabled={ this.btnSettingsRedirect }
+            onClick={ this.btnSettingsRedirect }
           >
             Configurações
           </button>
-          { btnSettingsDisabled && <Redirect to="/settings" /> }
         </fieldset>
       </div>
     );
