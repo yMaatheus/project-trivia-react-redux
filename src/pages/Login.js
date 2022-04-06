@@ -8,7 +8,6 @@ class Login extends React.Component {
       name: '',
       email: '',
       playerDisabled: true,
-      btnSettingsDisabled: false,
     };
   }
 
@@ -29,8 +28,7 @@ class Login extends React.Component {
     this.setState({ playerDisabled: !this.isNameValid() || !this.isEmailValid() });
   }
 
-  // Setor de direcionar botão
-  btnSettingsRedirect = () => {
+  clickSettingsButton = () => {
     const { history } = this.props;
     history.push('/settings');
   }
@@ -71,7 +69,7 @@ class Login extends React.Component {
             data-testid="btn-settings"
             type="button"
             label="Configurar"
-            onClick={ this.btnSettingsRedirect }
+            onClick={ this.clickSettingsButton }
           >
             Configurações
           </button>
