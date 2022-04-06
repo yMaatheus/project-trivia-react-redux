@@ -1,4 +1,4 @@
-// import { SET_TOKEN } from '../actions';
+import { SAVE_EMAIL, SAVE_NAME } from '../actions';
 
 const FIRST_STATE = {
   name: '',
@@ -10,10 +10,15 @@ const FIRST_STATE = {
 
 const player = (state = FIRST_STATE, action) => {
   switch (action.type) {
-  case 'ACTION':
+  case SAVE_EMAIL:
     return {
       ...state,
-      token: action.payload,
+      gravatarEmail: action.payload,
+    };
+  case SAVE_NAME:
+    return {
+      ...state,
+      name: action.payload,
     };
   default:
     return state;
