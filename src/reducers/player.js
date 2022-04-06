@@ -1,4 +1,4 @@
-import { SET_TOKEN } from '../actions';
+// import { SET_TOKEN } from '../actions';
 
 const FIRST_STATE = {
   name: '',
@@ -10,7 +10,7 @@ const FIRST_STATE = {
 
 const player = (state = FIRST_STATE, action) => {
   switch (action.type) {
-  case SET_TOKEN:
+  case 'ACTION':
     return {
       ...state,
       token: action.payload,
