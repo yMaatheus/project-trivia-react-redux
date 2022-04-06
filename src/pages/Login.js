@@ -71,7 +71,7 @@ class Login extends React.Component {
             data-testid="btn-settings"
             type="button"
             label="Configurar"
-            disabled={ btnSettingsRedirect }
+            disabled={ this.btnSettingsRedirect }
           >
             Configurações
           </button>
