@@ -10,4 +10,4 @@ export const tokenFetch = async () => {
   }
 };
 
-export const triva = '1';
+export const trivia = '1';

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { tokenFetch } from '../services';
-import { handleToken } from '../actions';
+import { handleToken, saveEmail, saveName } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -46,8 +46,11 @@ class Login extends React.Component {
   }
 
   clickPlayButton = () => {
-    const { saveToken, history } = this.props;
+    const { saveToken, history, saveNameToState, saveEmailToState } = this.props;
     saveToken();
+    const { email, name } = this.state;
+    saveEmailToState(email);
+    saveNameToState(name);
     history.push('/game');
   }
 
@@ -95,10 +98,14 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   saveToken: () => dispatch(handleToken()),
+  saveNameToState: (nameState) => dispatch(saveName(nameState)),
+  saveEmailToState: (emailState) => dispatch(saveEmail(emailState)),
 });
 
 Login.propTypes = {
   saveToken: PropTypes.func.isRequired,
+  saveEmailToState: PropTypes.func.isRequired,
+  saveNameToState: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
