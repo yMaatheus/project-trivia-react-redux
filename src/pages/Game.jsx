@@ -10,11 +10,16 @@ class Game extends React.Component {
     super();
     this.state = {
       questionIndex: 0,
+      isHiddenNextButton: true,
     };
   }
 
+  handleNextButton = (value) => {
+    this.setState({ isHiddenNextButton: value });
+  }
+
   render() {
-    const { questionIndex } = this.state;
+    const { questionIndex, isHiddenNextButton } = this.state;
     const { questions } = this.props;
     const question = questions[questionIndex];
     return (
@@ -22,7 +27,14 @@ class Game extends React.Component {
         <h1>Game</h1>
         <Header />
         <Question question={ question } />
-        <GameAnswers question={ question } />
+        <GameAnswers question={ question } handleNextButton={ this.handleNextButton } />
+        <button
+          type="button"
+          hidden={ isHiddenNextButton && 'hidden' }
+          data-testid="btn-next"
+        >
+          Next
+        </button>
       </div>
     );
   }

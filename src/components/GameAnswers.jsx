@@ -16,11 +16,13 @@ class GameAnswers extends React.Component {
   }
 
   componentDidMount() {
+    const { handleNextButton } = this.props;
     const oneSecond = 1000;
     this.setState({
       timer: setInterval(this.decrementAndTimeoutCheck, oneSecond),
       answers: this.handleAnswers(),
     });
+    handleNextButton(true);
   }
 
   decrement = () => {
@@ -33,9 +35,11 @@ class GameAnswers extends React.Component {
   }
 
   questionTimeout = () => {
+    const { handleNextButton } = this.props;
     this.setState({ isButtonsDisabled: true });
     this.stopTimer();
     this.setBorderAnswers();
+    handleNextButton(false);
   }
 
   stopTimer = () => {
@@ -51,6 +55,7 @@ class GameAnswers extends React.Component {
     }
   }
 
+  // ref: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
   shuffle = (array) => (
     array.map((value) => ({ value, sort: Math.random() }))
       .sort((a, b) => a.sort - b.sort)
@@ -68,9 +73,10 @@ class GameAnswers extends React.Component {
 
   handleClick = ({ target }) => {
     this.setBorderAnswers();
-    const { computeNewScore } = this.props;
+    const { computeNewScore, handleNextButton } = this.props;
     this.setState({ isAnswered: true });
     this.stopTimer();
+    handleNextButton(false);
     if (!target.classList.contains('correct')) {
       return;
     }
@@ -121,7 +127,8 @@ class GameAnswers extends React.Component {
 
 GameAnswers.propTypes = {
   question: PropTypes.object,
-  computeNewScore: PropTypes.func.isRequired,
+  computeNewScore: PropTypes.func,
+  handleNextButton: PropTypes.func,
 }.isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
