@@ -10,7 +10,6 @@ const FIRST_STATE = {
 const player = (state = FIRST_STATE, action) => {
   switch (action.type) {
   case INCREMENT_SCORE:
-    console.log('Hello world');
     return {
       ...state,
       score: (state.score + action.payload),
