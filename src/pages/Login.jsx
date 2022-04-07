@@ -1,22 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { tokenFetch } from '../services';
-import { handleToken, saveEmail, saveName } from '../actions';
+import { tokenFetch, getQuestions } from '../services';
+import { setToken, saveEmail, saveName, setQuestions } from '../actions';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
 
+    this.clickPlayButton = this.clickPlayButton.bind(this);
     this.state = {
       name: '',
       email: '',
       playerDisabled: true,
     };
-  }
-
-  async componentDidMount() {
-    console.log(await tokenFetch());
   }
 
   isNameValid = () => {
@@ -45,12 +42,16 @@ class Login extends React.Component {
     this.setState({ [name]: value }, this.validateNameAndEmail);
   }
 
-  clickPlayButton = () => {
-    const { saveToken, history, saveNameToState, saveEmailToState } = this.props;
-    saveToken();
+  async clickPlayButton() {
+    const { saveToken, history, saveNameToState,
+      saveEmailToState, loadQuestions } = this.props;
     const { email, name } = this.state;
+    const token = await tokenFetch();
+    saveToken(token);
     saveEmailToState(email);
     saveNameToState(name);
+    console.log(`TOKEN: ${token}`);
+    loadQuestions(await getQuestions(token));
     history.push('/game');
   }
 
@@ -86,7 +87,7 @@ class Login extends React.Component {
             data-testid="btn-settings"
             type="button"
             label="Configurar"
-            onClick={ this.clickSettingsButton }
+            onClick={ () => this.clickSettingsButton() }
           >
             Configurações
           </button>
@@ -96,19 +97,25 @@ class Login extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  token: state.token,
+});
+
 const mapDispatchToProps = (dispatch) => ({
-  saveToken: () => dispatch(handleToken()),
+  saveToken: (token) => dispatch(setToken(token)),
   saveNameToState: (nameState) => dispatch(saveName(nameState)),
   saveEmailToState: (emailState) => dispatch(saveEmail(emailState)),
+  loadQuestions: (questions) => dispatch(setQuestions(questions)),
 });
 
 Login.propTypes = {
-  saveToken: PropTypes.func.isRequired,
-  saveEmailToState: PropTypes.func.isRequired,
-  saveNameToState: PropTypes.func.isRequired,
+  saveToken: PropTypes.func,
+  saveEmailToState: PropTypes.func,
+  saveNameToState: PropTypes.func,
+  loadQuestions: PropTypes.func,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
