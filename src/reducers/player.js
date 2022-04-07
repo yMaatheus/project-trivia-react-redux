@@ -1,15 +1,19 @@
-import { SAVE_EMAIL, SAVE_NAME, SET_QUESTIONS } from '../actions';
+import { SAVE_EMAIL, SAVE_NAME, SET_QUESTIONS, INCREMENT_SCORE } from '../actions';
 
 const FIRST_STATE = {
   name: '',
   assertions: '',
-  score: '',
+  score: 0,
   gravatarEmail: '',
   questions: [],
 };
 
 const player = (state = FIRST_STATE, action) => {
   switch (action.type) {
+  case INCREMENT_SCORE:
+    return {
+      ...state,
+      score: (state.score + action.payload) };
   case SAVE_EMAIL:
     return {
       ...state,
