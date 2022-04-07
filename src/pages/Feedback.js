@@ -1,51 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Feedback extends React.Component {
-  constructor(){
-    super()
+  clickPlayAgainButton = () => {
+    const { saveToken, history } = this.props;
+    saveToken();
+    history.push('/');
+  };
 
-    clickPlayAgainButton = () => {
-      const { saveToken, history } = this.props;
-      saveToken();
-      history.push('/');
-    }
-  } // Fim do constructor
   render() {
     return (
-    <fieldset data-testid="info-player">
-      <header>
-        <input
-        data-testid="header-profile-picture"
-        label="Imagem de Perfil"
-        type="image"
-        name="profile picture" 
-        />
-
-        <input
-        data-testid="header-player-name"
-        label="Jogador(a): "
-        type="text"
-        name="player"
-        />
-
-        <input
-        data-testid="header-score"
-        label="Pontuação: "
-        type="number"
-        name="score"
-        />
-
-        <button
-        data-testid="btn-play-again"
-        label="Play Again"
-        type="button"
-        name='button play again'
-        onClick={ this.clickPlayAgainButton }
-        />
-      </header>
-    </fieldset>
+      <fieldset data-testid="info-player">
+        <header>
+          <button
+            data-testid="btn-play-again"
+            label="Play Again"
+            type="button"
+            name="button play again"
+            onClick={ this.clickPlayAgainButton }
+          />
+        </header>
+      </fieldset>
     );
   }
 }
+
+Feedback.propTypes = {
+  saveToken: PropTypes.func,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
 export default Feedback;
