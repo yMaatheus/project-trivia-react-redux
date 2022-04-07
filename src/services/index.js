@@ -10,4 +10,13 @@ export const tokenFetch = async () => {
   }
 };
 
-export const triva = '1';
+export const getQuestions = async (token) => {
+  try {
+    const response = await fetch(`https://opentdb.com/api.php?amount=5&token=${token}`);
+    const data = await response.json();
+    console.log(data.results);
+    return data.results;
+  } catch (error) {
+    console.error(error);
+  }
+};

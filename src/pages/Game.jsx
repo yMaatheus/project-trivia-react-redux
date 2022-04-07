@@ -1,89 +1,39 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { incrementScore } from '../actions';
+import Header from '../components/Header';
+import Question from '../components/Question';
+import GameAnswers from '../components/GameAnswers';
 
 class Game extends React.Component {
   constructor() {
     super();
     this.state = {
-      seconds: 30,
-      timer: null,
-      isAnswered: false,
-      isButtonsDisabled: false,
+      questionIndex: 0,
     };
   }
 
-  componentDidMount() {
-    const oneSecond = 1000;
-    this.setState({
-      timer: setInterval(this.decrementAndTimeoutCheck, oneSecond),
-    });
-  }
-
-  decrement = () => {
-    const { seconds, isAnswered } = this.state;
-    if (seconds > 0 && !isAnswered) {
-      this.setState({
-        seconds: (seconds - 1),
-      });
-    }
-  }
-
-  questionTimeout = () => {
-    this.setState({ isButtonsDisabled: true });
-    this.stopTimer();
-  }
-
-  stopTimer = () => {
-    const { timer } = this.state;
-    clearInterval(timer);
-  }
-
-  decrementAndTimeoutCheck = () => {
-    const { seconds, isAnswered } = this.state;
-    this.decrement();
-    if (seconds <= 0 && !isAnswered) {
-      this.questionTimeout();
-    }
-  }
-
-  handleQuestion = () => {
-    const { computeNewScore } = this.props;
-    this.setState({ isAnswered: true });
-    this.stopTimer();
-    const correct = true;
-    if (!correct) {
-      return;
-    }
-    const points = this.calculatePointsAnswered();
-    computeNewScore(points);
-  }
-
-  calculatePointsAnswered = () => {
-    const { seconds } = this.state;
-    const difficulty = 3;
-    const ten = 10;
-    return ten + (seconds * difficulty);
-  }
-
   render() {
-    const { seconds, timer, isAnswered, isButtonsDisabled } = this.state;
+    const { questionIndex } = this.state;
+    const { questions } = this.props;
+    const question = questions[questionIndex];
     return (
       <div>
         <h1>Game</h1>
-        <span>{ seconds }</span>
+        <Header />
+        <Question question={ question } />
+        <GameAnswers question={ question } />
       </div>
     );
   }
 }
 
 Game.propTypes = {
-  computeNewScore: PropTypes.func.isRequired,
-};
+  questions: PropTypes.array,
+}.isRequired;
 
-const mapDispatchToProps = (dispatch) => ({
-  computeNewScore: (points) => dispatch(incrementScore(points)),
+const mapStateToProps = (state) => ({
+  questions: state.player.questions,
 });
 
-export default connect(null, mapDispatchToProps)(Game);
+export default connect(mapStateToProps)(Game);
