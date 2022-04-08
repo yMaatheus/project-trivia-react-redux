@@ -12,13 +12,16 @@ class Feedback extends React.Component {
     return (
       <div>
         <Header />
+        <h1 data-testid="feedback-text">Feedback</h1>
         <button
           data-testid="btn-play-again"
           label="Play Again"
           type="button"
           name="button play again"
           onClick={ this.clickPlayAgainButton }
-        />
+        >
+          Jogar novamente
+        </button>
       </div>
     );
   }

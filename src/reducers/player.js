@@ -6,7 +6,29 @@ const FIRST_STATE = {
   score: 0,
   gravatarEmail: '',
   questions: [],
+  questionsAnswers: [],
 };
+
+// ref: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+const shuffle = (array) => (
+  array.map((value) => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value)
+);
+
+const handleAnswers = (
+  { correct_answer: correctAnswer, incorrect_answers: incorrectAnswers },
+) => {
+  const array = incorrectAnswers.map(
+    (incorrectAnswer, index) => ({ correct: false, answer: incorrectAnswer, index }),
+  );
+  array.push({ correct: true, answer: correctAnswer, index: correctAnswer });
+  return shuffle(array);
+};
+
+const createRandomAnswers = (questions) => (
+  questions.map((question) => handleAnswers(question))
+);
 
 const player = (state = FIRST_STATE, action) => {
   switch (action.type) {
@@ -25,7 +47,11 @@ const player = (state = FIRST_STATE, action) => {
       name: action.payload,
     };
   case SET_QUESTIONS:
-    return { ...state, questions: action.payload };
+    return {
+      ...state,
+      questions: action.payload,
+      questionsAnswers: createRandomAnswers(action.payload),
+    };
   default:
     return state;
   }
