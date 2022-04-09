@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { incrementScore } from '../actions';
+import { incrCorrectAnswer, incrementScore } from '../actions';
 import Header from '../components/Header';
 import Question from '../components/Question';
 import GameAnswers from '../components/GameAnswers';
@@ -16,6 +16,7 @@ class Game extends React.Component {
       isButtonsDisabled: false,
       questionIndex: 0,
       isHiddenNextButton: true,
+      correctAnswers: 0,
     };
   }
 
@@ -69,6 +70,17 @@ class Game extends React.Component {
     }
   }
 
+  answerScore = () => {
+    const correctAnswer = document.querySelector('.correct');
+    let { correctAnswers } = this.state;
+    const { computeAnswerScore } = this.props;
+    if (correctAnswer) {
+      this.setState({
+        correctAnswers: correctAnswers += 1,
+      }, () => computeAnswerScore(correctAnswers));
+    }
+  }
+
   handleClick = ({ target }) => {
     this.setBorderAnswers();
     const { computeNewScore } = this.props;
@@ -80,6 +92,7 @@ class Game extends React.Component {
     }
     const points = this.calculatePointsAnswered();
     computeNewScore(points);
+    this.answerScore();
   }
 
   calculatePointsAnswered = () => {
@@ -162,6 +175,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   computeNewScore: (points) => dispatch(incrementScore(points)),
+  computeAnswerScore: (answerScore) => dispatch(incrCorrectAnswer(answerScore)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);

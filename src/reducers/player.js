@@ -1,4 +1,5 @@
-import { SAVE_EMAIL, SAVE_NAME, SET_QUESTIONS, INCREMENT_SCORE } from '../actions';
+import { SAVE_EMAIL, SAVE_NAME, SET_QUESTIONS, INCREMENT_SCORE,
+  INCREMENT_CORRET_SCORE } from '../actions';
 
 const FIRST_STATE = {
   name: '',
@@ -7,6 +8,7 @@ const FIRST_STATE = {
   gravatarEmail: '',
   questions: [],
   questionsAnswers: [],
+  questionScore: 0,
 };
 
 // ref: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -51,6 +53,11 @@ const player = (state = FIRST_STATE, action) => {
       ...state,
       questions: action.payload,
       questionsAnswers: createRandomAnswers(action.payload),
+    };
+  case INCREMENT_CORRET_SCORE:
+    return {
+      ...state,
+      questionScore: action.payload,
     };
   default:
     return state;
