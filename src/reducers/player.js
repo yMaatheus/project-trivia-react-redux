@@ -3,12 +3,11 @@ import { SAVE_EMAIL, SAVE_NAME, SET_QUESTIONS, INCREMENT_SCORE,
 
 const FIRST_STATE = {
   name: '',
-  assertions: '',
+  assertions: 0,
   score: 0,
   gravatarEmail: '',
   questions: [],
   questionsAnswers: [],
-  questionScore: 0,
 };
 
 // ref: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -57,7 +56,7 @@ const player = (state = FIRST_STATE, action) => {
   case INCREMENT_CORRET_SCORE:
     return {
       ...state,
-      questionScore: action.payload,
+      assertions: action.payload,
     };
   default:
     return state;

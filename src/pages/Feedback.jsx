@@ -17,26 +17,17 @@ class Feedback extends React.Component {
   feedbackMessage = () => {
     const THREE = 3;
     const { correctScoreNumber } = this.props;
-    let message = '';
-    // correctScoreNumber < 3 && message = 'Could be better...'
-    if (correctScoreNumber < THREE) {
-      message = 'Could be better...';
-      return message;
-    }
-    if (correctScoreNumber >= THREE) {
-      message = 'Well Done!';
-      return message;
-    }
+    return correctScoreNumber < THREE ? 'Could be better...' : 'Well Done!';
   }
 
   render() {
-    const { finalScore } = this.props;
+    const { finalScore, correctScoreNumber } = this.props;
     return (
       <div>
         <Header />
-        {/* <h1 data-testid="feedback-text">Feedback</h1> */}
-        <h3 data-testid="feedback-totalscore">{`Seu score final é ${finalScore}!`}</h3>
-        <p data-testid="feedback-text">{ this.feedbackMessage() }</p>
+        <h1 data-testid="feedback-text">{this.feedbackMessage()}</h1>
+        <h5 data-testid="feedback-total-score">{finalScore}</h5>
+        <span data-testid="feedback-total-question">{correctScoreNumber}</span>
         <button
           data-testid="btn-play-again"
           label="Play Again"
@@ -65,7 +56,7 @@ Feedback.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
-  correctScoreNumber: state.player.questionScore,
+  correctScoreNumber: state.player.assertions,
   finalScore: state.player.score,
 });
 
