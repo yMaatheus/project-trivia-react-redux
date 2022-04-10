@@ -2,11 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import { setRank } from '../services';
+import { resetScore } from '../actions';
 
 class Feedback extends React.Component {
+  componentDidMount() {
+    const { name, score, gravatar } = this.props;
+    setRank({ name, score, gravatar });
+  }
+
   clickPlayAgainButton = () => {
-    const { history } = this.props;
+    const { history, resScore } = this.props;
     history.push('/');
+    resScore();
   };
 
   clickRankingButton = () => {
@@ -56,8 +64,15 @@ Feedback.propTypes = {
 }.isRequired;
 
 const mapStateToProps = (state) => ({
+  name: state.player.name,
+  score: state.player.score,
+  gravatar: state.player.gravatar,
   correctScoreNumber: state.player.assertions,
   finalScore: state.player.score,
 });
 
-export default connect(mapStateToProps)(Feedback);
+const mapDispatchToProps = (dispatch) => ({
+  resScore: () => dispatch(resetScore()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Feedback);

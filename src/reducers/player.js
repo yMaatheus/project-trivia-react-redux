@@ -1,5 +1,6 @@
 import { SAVE_EMAIL, SAVE_NAME, SET_QUESTIONS, INCREMENT_SCORE,
-  INCREMENT_CORRET_SCORE } from '../actions';
+  INCREMENT_CORRET_SCORE,
+  RESET_SCORE } from '../actions';
 
 const FIRST_STATE = {
   name: '',
@@ -8,6 +9,7 @@ const FIRST_STATE = {
   gravatarEmail: '',
   questions: [],
   questionsAnswers: [],
+  gravatar: '',
 };
 
 // ref: https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -41,6 +43,7 @@ const player = (state = FIRST_STATE, action) => {
     return {
       ...state,
       gravatarEmail: action.payload,
+      gravatar: `https://www.gravatar.com/avatar/${action.payload}`,
     };
   case SAVE_NAME:
     return {
@@ -57,6 +60,11 @@ const player = (state = FIRST_STATE, action) => {
     return {
       ...state,
       assertions: action.payload,
+    };
+  case RESET_SCORE:
+    return {
+      ...state,
+      score: 0,
     };
   default:
     return state;

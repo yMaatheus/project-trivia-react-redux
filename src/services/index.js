@@ -20,3 +20,14 @@ export const getQuestions = async (token) => {
     console.error(error);
   }
 };
+
+export const getRank = () => {
+  const localStorageRank = localStorage.getItem('ranking');
+  return JSON.parse(localStorageRank);
+};
+
+export const setRank = (newRank) => {
+  const localStorageRank = getRank() || [];
+  const currentRank = [...localStorageRank, newRank];
+  localStorage.setItem('ranking', JSON.stringify(currentRank));
+};

@@ -4,14 +4,6 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 
 class Header extends React.Component {
-  // constructor() {
-  //   super();
-
-  //   this.state = {
-  //     isLoading: true,
-  //   };
-  // }
-
   handleAvatar = () => {
     const { email } = this.props;
     const emailHash = md5(email).toString();
