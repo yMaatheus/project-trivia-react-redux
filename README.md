@@ -6,6 +6,10 @@ Utilizamos também uma biblioteca chamada he para tratamento do texto retornado 
 
 Para Rodar localmente este projeto é necessário apenas clonar o repositório e após isso usar o 'npm install' e 'npm start'.
 
+## 📱 Projeto
+
+Veja o projeto em produção clicando [aqui](https://project-trivia-react-redux-ten.vercel.app/)
+
 ## ✒️ Autores
 
 * **[Matheus Henrique](https://github.com/yMaatheus)**
